@@ -2,6 +2,8 @@
 
 A Content-Based Movie Recommendation System that suggests movies similar to the one you like! Built using **Python**, **TF-IDF Vectorization**, and **Cosine Similarity**, this project helps users discover films based on description similarity.
 
+🔗 **Live Demo:** [Movie Recommendation System](https://movie-recommendation-system-nmt4fhyhkeq4el7igtkrbj.streamlit.app/)
+
 🔗 **[Try it on Google Colab](https://colab.research.google.com/drive/1iCiOQVhs1h8yrfqtWrgKfYGVBdQnaDdr?usp=sharing)**  
 📊 **[Dataset from Kaggle – TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata)**
 
