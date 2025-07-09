@@ -5,23 +5,34 @@ import requests
 import gdown
 import os
 
-
-
-# Load data
+# Load movie dictionary
 movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+
+# Download similarity.pkl from Google Drive if not present
+similarity_file = 'similarity.pkl'
+drive_url = 'https://drive.google.com/uc?id=1YBMtK46zJAmZ4J4dDUSsITsbbDDQOSSy'
+
+if not os.path.exists(similarity_file):
+    with st.spinner("Downloading similarity model..."):
+        gdown.download(drive_url, similarity_file, quiet=False)
+
+# Load similarity
+similarity = pickle.load(open(similarity_file, 'rb'))
 
 # Title
-st.title('Movie Recommender System')
+st.title('🎬 Movie Recommender System')
 
-# Fetch movie poster from API
+# Fetch movie poster from TMDB API
 def fetch_poster(movie_id):
     response = requests.get(
-        'https://api.themoviedb.org/3/movie/{}?api_key=cb4e1e1e713c5c020fb8c20c50ee89e6&language=en-US'.format(movie_id)
+        f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=cb4e1e1e713c5c020fb8c20c50ee89e6&language=en-US'
     )
     data = response.json()
-    return "https://image.tmdb.org/t/p/w500/" + data['poster_path']
+    if 'poster_path' in data and data['poster_path']:
+        return "https://image.tmdb.org/t/p/w500/" + data['poster_path']
+    else:
+        return "https://via.placeholder.com/300x450.png?text=No+Poster"
 
 # Recommend function
 def recommend(movie):
@@ -38,28 +49,14 @@ def recommend(movie):
     return recommended_movies, recommended_movies_posters
 
 # Streamlit UI
-selected_movie_name = st.selectbox(
-    'Select a movie',
-    movies['title'].values
-)
+selected_movie_name = st.selectbox('Select a movie', movies['title'].values)
 
 if st.button('Recommend'):
-    names, posters = recommend(selected_movie_name)
+    with st.spinner("Fetching recommendations..."):
+        names, posters = recommend(selected_movie_name)
 
-    col1, col2, col3, col4, col5 = st.columns(5)  # use st.columns instead of deprecated st.beta_columns
-
-    with col1:
-        st.text(names[0])
-        st.image(posters[0])
-    with col2:
-        st.text(names[1])
-        st.image(posters[1])
-    with col3:
-        st.text(names[2])
-        st.image(posters[2])
-    with col4:
-        st.text(names[3])
-        st.image(posters[3])
-    with col5:
-        st.text(names[4])
-        st.image(posters[4])
+    cols = st.columns(5)
+    for i in range(5):
+        with cols[i]:
+            st.text(names[i])
+            st.image(posters[i])
