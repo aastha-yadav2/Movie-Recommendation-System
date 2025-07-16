@@ -7,7 +7,7 @@ import os
 st.markdown("""
     <style>
     .stApp {
-        background-image: url("https://tenor.com/view/tv-netflix-movie-disney-television-gif-12848399676673134980");
+        background-image: url("https://media.giphy.com/media/Sb7WSbjHFNIL6/giphy.gif");
         background-size: cover;
         background-attachment: fixed;
         background-position: center;
