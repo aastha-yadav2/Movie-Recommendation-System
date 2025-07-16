@@ -4,6 +4,17 @@ import pandas as pd
 import requests
 import gdown
 import os
+st.markdown("""
+    <style>
+    .stApp {
+        background-image: url("https://tenor.com/view/tv-netflix-movie-disney-television-gif-12848399676673134980");
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 
 # Load movie dictionary
 movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
